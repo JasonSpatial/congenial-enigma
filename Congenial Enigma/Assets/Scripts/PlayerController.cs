@@ -55,9 +55,6 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 		
-		Debug.Log("Movement: " + movement);
-
-		
 		_rb.MovePosition(_rb.position + movement * Speed * Time.fixedDeltaTime);
 	}
 
