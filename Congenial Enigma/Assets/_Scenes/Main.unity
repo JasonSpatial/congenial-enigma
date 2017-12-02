@@ -319,26 +319,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114868711933817912, guid: be1602ce94ac5564983383ce39706b58,
-        type: 2}
-      propertyPath: RotationSpeed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114868711933817912, guid: be1602ce94ac5564983383ce39706b58,
-        type: 2}
-      propertyPath: Speed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 50127427462119564, guid: be1602ce94ac5564983383ce39706b58,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 50127427462119564, guid: be1602ce94ac5564983383ce39706b58,
-        type: 2}
-      propertyPath: m_LinearDrag
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be1602ce94ac5564983383ce39706b58, type: 2}
   m_IsPrefabParent: 0
