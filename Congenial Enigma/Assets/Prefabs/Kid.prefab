@@ -119,7 +119,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HarmAmount: 0
   ScaredSound: {fileID: 0}
+  IsPatrolling: 1
   Speed: 400
+  KidRadar: 5
+  ChaseSounds:
+  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
+  - {fileID: 8300000, guid: 7ecc26b50d7ffc34c8246dc94b6b67b0, type: 3}
+  - {fileID: 8300000, guid: a1db8f3ce98ab9748a998df13a16ae44, type: 3}
+  - {fileID: 8300000, guid: cd51f6815417bed43a421661ffee36fe, type: 3}
+  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
+  - {fileID: 8300000, guid: 7396df2246dc1e04299d5ab7a87a0720, type: 3}
+  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
+  - {fileID: 8300000, guid: ecfba1644e22db7408576d41c442fe8e, type: 3}
+  - {fileID: 8300000, guid: 7ecc26b50d7ffc34c8246dc94b6b67b0, type: 3}
+  - {fileID: 8300000, guid: a1db8f3ce98ab9748a998df13a16ae44, type: 3}
+  GetAwaySounds:
+  - {fileID: 8300000, guid: 256d721937bfa6e4294dab7877f5b343, type: 3}
+  - {fileID: 8300000, guid: ecfba1644e22db7408576d41c442fe8e, type: 3}
+  - {fileID: 8300000, guid: 5071626d36ed391488e0340131eb35d8, type: 3}
+  - {fileID: 8300000, guid: 933e4d9a3ce94144c8babd4569de667b, type: 3}
 --- !u!212 &212855836284677272
 SpriteRenderer:
   m_ObjectHideFlags: 1

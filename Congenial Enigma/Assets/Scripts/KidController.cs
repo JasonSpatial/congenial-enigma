@@ -7,11 +7,29 @@ public class KidController : MonoBehaviour
 	public bool IsPatrolling = true;
 	public float Speed = 5.5f;
 	public float KidRadar = 5;
-
+	public AudioClip[] ChaseSounds;
+	public AudioClip[] GetAwaySounds;
+	public float Radius = 5;
 	private Transform _target;
 	private Rigidbody2D _rb;
 	private Vector3 _origin;
+	private Vector3 _wanderPoint;
 	private Vector2 _direction;
+	private bool _clipPlayed;
+	private bool _targeted;
+	private SpriteRenderer _sprite;
+	
+	void OnDrawGizmos()
+	{
+		// radar gizmo
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, 5);
+		
+		// wander gizmo
+		Gizmos.color = Color.black;
+		Gizmos.DrawWireSphere(_origin, Radius);
+		
+	}
 	
 	private void FixedUpdate()
 	{
@@ -25,23 +43,40 @@ public class KidController : MonoBehaviour
 				if (hit.collider.CompareTag("Player") && hit.distance <= KidRadar &&
 				    !hit.collider.gameObject.GetComponent<PlayerController>().IsProtected)
 				{
-					IsPatrolling = false;
+					_targeted = true;
+					_sprite.flipX = ((_direction).normalized.x == 0) ? _sprite.flipX : ((_direction).normalized.x < 0);
 					var impulse = (_direction).normalized * Time.deltaTime;
 					_rb.AddForce(impulse * Speed);
+					if (!_clipPlayed)
+					{
+						ClipPlayer.Instance.ClipToPlay = RandomChaseSound();
+						ClipPlayer.Instance.PlayClip();
+						_clipPlayed = true;
+					}
 				}
 				else
 				{
-					GoHome();
+					if (_targeted)
+					{
+						ClipPlayer.Instance.ClipToPlay = RandomGetAwaySound();
+						ClipPlayer.Instance.PlayClip();
+						_targeted = false;
+						ResetOrigin();
+					}
+
+					GoAway();
+					_clipPlayed = false;
 				}
 			}
 			else
 			{
-				// return to patrol area
-				GoHome();
+				GoAway();
+				_clipPlayed = false;
 			}
 		}
 	}
 
+	
 	void Awake()
 	{
 		_origin = transform.position;
@@ -51,13 +86,36 @@ public class KidController : MonoBehaviour
 	{
 		_rb = GetComponent<Rigidbody2D>();
 		_target = GameObject.FindGameObjectWithTag("Player").transform;
+		_sprite = GetComponent<SpriteRenderer>();
 	}
 
-	void GoHome()
+	void ResetOrigin()
 	{
-		_direction = _origin - transform.position;
+		print("origin: " + _origin);
+		var newX = _origin.x + Radius * Random.Range(-1.0f, 1.0f);
+		var newY = _origin.y + Radius * Random.Range(-1.0f, 1.0f);
+		_wanderPoint.x = newX;
+		_wanderPoint.y = newY;
+		print("new origin: " + _origin);
+	}
+
+	void GoAway()
+	{
+		_direction = _wanderPoint - transform.position;
 		var impulse = (_direction).normalized * Time.deltaTime;
 		_rb.AddForce(impulse * Speed);
+	}
+
+	AudioClip RandomChaseSound()
+	{
+		var index = Random.Range(0, ChaseSounds.Length - 1);
+		return ChaseSounds[index];
+	}
+
+	AudioClip RandomGetAwaySound()
+	{
+		var index = Random.Range(0, GetAwaySounds.Length - 1);
+		return GetAwaySounds[index];
 	}
 	
 	void Update()

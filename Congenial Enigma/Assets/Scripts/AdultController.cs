@@ -6,7 +6,10 @@ using UnityEngine;
 public class AdultController : MonoBehaviour
 {
 
+	public AudioClip[] ProtectedClips;
 	public bool Leaving = false;
+
+	private bool _playedProtectedClip;
 	
 	void OnDrawGizmos()
 	{
@@ -26,6 +29,22 @@ public class AdultController : MonoBehaviour
 		}
 	}
 
+	public void PlayProtectedClip()
+	{
+		if (!_playedProtectedClip)
+		{
+			ClipPlayer.Instance.ClipToPlay = RandomProtectedSound();
+			ClipPlayer.Instance.PlayClip(true);
+		}
+		_playedProtectedClip = true;
+	}
+	
+	AudioClip RandomProtectedSound()
+	{
+		var index = Random.Range(0, ProtectedClips.Length - 1);
+		return ProtectedClips[index];
+	}
+	
 	void Update()
 	{
 		if (Leaving)

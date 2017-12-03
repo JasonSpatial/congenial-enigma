@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04edc82299f31b847acfc03fdb6e4907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Life: 10
+  Purrs: 0
   Speed: 3
   SwipeRate: 0.5
   PurrSound: {fileID: 0}
@@ -204,6 +204,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Lives: []
+  FullHeart: {fileID: 0}
+  HalfHeart: {fileID: 0}
+  EmptyHeart: {fileID: 0}
+  IsProtected: 0
+  ProtectedClips:
+  - {fileID: 8300000, guid: 00437ec23fab2c148b4d11b49e83c432, type: 3}
+  - {fileID: 8300000, guid: dd3a8b0f06a8b984caf30851037c297b, type: 3}
+  - {fileID: 8300000, guid: f2c7b5877d63dd548a9fcfaf5a894d1a, type: 3}
+  - {fileID: 8300000, guid: f292d756bbbd45c4a8bd8969cd53c989, type: 3}
+  - {fileID: 8300000, guid: 92c323f4b84ef4648970fdb890756fcb, type: 3}
+  - {fileID: 8300000, guid: c9bd527832e58f54888bcf95834938b4, type: 3}
 --- !u!124 &124012180070144042
 Behaviour:
   m_ObjectHideFlags: 1

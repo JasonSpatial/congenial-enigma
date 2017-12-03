@@ -1,7 +1,4 @@
-﻿﻿using System;
- using System.Collections;
- using System.Security.Policy;
- using JetBrains.Annotations;
+﻿ using System.Linq;
  using UnityEngine;
  using UnityEngine.UI;
 
@@ -20,7 +17,6 @@ public class PlayerController : MonoBehaviour
 	public Texture EmptyHeart;
 	public bool IsProtected = false;
 	
-	
 	private Rigidbody2D _rb;
 	private float _swipeDelay;
 	private Color _originalColor;
@@ -37,11 +33,12 @@ public class PlayerController : MonoBehaviour
 		_anim = GetComponent<Animator>();
 	}
 
-	// Update is called once per frame
+
 	void Update () {
 
 		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 2f, Vector2.zero, 2f);
 		IsProtected = false;
+		
 		foreach (var hit in hits)
 		{
 			if (hit.collider != null)
@@ -53,6 +50,7 @@ public class PlayerController : MonoBehaviour
 					{
 						adult.StartTimer();
 						IsProtected = true;
+						adult.PlayProtectedClip();
 						break;	
 					}
 					
@@ -72,7 +70,6 @@ public class PlayerController : MonoBehaviour
 			{
 				Swipe();
 			}
-//			_rb.transform.rotation = Quaternion.LookRotation(rotations);
 		}
 	}
 
@@ -157,30 +154,6 @@ public class PlayerController : MonoBehaviour
 			currentSprite.texture = FullHeart;
 		}
 		
-//		if (Life > 3)
-//		{
-//			foreach (var heart in HealthMeter)
-//			{
-//				heart.gameObject.SetActive(false);
-//			}
-//
-//			if (Life < 2)
-//			{
-//				Lives[Life].SetActive(false);
-//			}
-//			else
-//			{
-//				foreach (var life in Lives)
-//				{
-//					life.gameObject.SetActive(true);
-//				}
-//			}
-//		} 
-//		else
-//		{
-//			HealthMeter[Life].gameObject.SetActive(false);
-//		}
-//		
 		if (Purrs >= 10)
 		{
 			Die();
@@ -189,7 +162,6 @@ public class PlayerController : MonoBehaviour
 
 	void Die()
 	{
-//		Destroy(gameObject);
 		GameManager.Instance.Lose();
 	}
 }
