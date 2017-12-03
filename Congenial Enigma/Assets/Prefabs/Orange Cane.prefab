@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4187282995468022}
   - component: {fileID: 61615286091447696}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orange Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4687325578275552}
   - component: {fileID: 212365789436322596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hillCaneRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4961899049771588}
   - component: {fileID: 61342803639818026}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Green Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4074154627797748}
   - component: {fileID: 212068003767404570}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hillCaneGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}

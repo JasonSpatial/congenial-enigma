@@ -4,11 +4,48 @@ public class KidController : MonoBehaviour
 {
 	public int HarmAmount;
 	public GameObject ScaredSound;
-
+	public bool IsPatrolling = true;
 	public float Speed = 5.5f;
+	public float KidRadar = 5;
 
 	private Transform _target;
 	private Rigidbody2D _rb;
+	private Vector3 _origin;
+	private Vector2 _direction;
+	
+	private void FixedUpdate()
+	{
+		if (_target != null)
+		{
+			_direction = _target.position - transform.position;
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction);
+
+			if (hit.collider != null)
+			{
+				if (hit.collider.CompareTag("Player") && hit.distance <= KidRadar &&
+				    !hit.collider.gameObject.GetComponent<PlayerController>().IsProtected)
+				{
+					IsPatrolling = false;
+					var impulse = (_direction).normalized * Time.deltaTime;
+					_rb.AddForce(impulse * Speed);
+				}
+				else
+				{
+					GoHome();
+				}
+			}
+			else
+			{
+				// return to patrol area
+				GoHome();
+			}
+		}
+	}
+
+	void Awake()
+	{
+		_origin = transform.position;
+	}
 	
 	void Start ()
 	{
@@ -16,14 +53,21 @@ public class KidController : MonoBehaviour
 		_target = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
-	private void Update()
+	void GoHome()
+	{
+		_direction = _origin - transform.position;
+		var impulse = (_direction).normalized * Time.deltaTime;
+		_rb.AddForce(impulse * Speed);
+	}
+	
+	void Update()
 	{
 		if (_target != null)
 		{
 
-			var impulse = (_target.position - transform.position).normalized * Time.deltaTime;
-			_rb.AddForce(impulse * Speed);
-			
+//			var impulse = (_target.position - transform.position).normalized * Time.deltaTime;
+//			_rb.AddForce(impulse * Speed);
+//			
 //			transform.Translate((_target.position - transform.position).normalized * Time.deltaTime);
 
 //			Vector3 randomization = new Vector2(Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));

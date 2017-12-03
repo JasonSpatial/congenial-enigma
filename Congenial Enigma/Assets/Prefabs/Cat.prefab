@@ -191,14 +191,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04edc82299f31b847acfc03fdb6e4907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Purrs: 0
+  Life: 10
   Speed: 3
   SwipeRate: 0.5
   PurrSound: {fileID: 0}
   SwipeSound: {fileID: 0}
   AnnoyedSound: {fileID: 0}
-  PurrMeter: []
-  NineLivesMeter: []
+  HealthMeter:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Lives: []
 --- !u!124 &124012180070144042
 Behaviour:
   m_ObjectHideFlags: 1
