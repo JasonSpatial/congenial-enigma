@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4218449390287498}
   - component: {fileID: 95206880342394722}
   - component: {fileID: 212855836284677272}
-  - component: {fileID: 114868711933817912}
   - component: {fileID: 61830264242635150}
   - component: {fileID: 50127427462119564}
+  - component: {fileID: 114274359239918390}
   m_Layer: 2
-  m_Name: Kid
+  m_Name: Otto Kid
   m_TagString: Child
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114868711933817912
+--- !u!114 &114274359239918390
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -114,35 +114,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1756127928910688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 776ac36e5916fb446b2eaddcb7bf791a, type: 3}
+  m_Script: {fileID: 11500000, guid: f621311e45981ae42b119c6167b14932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HarmAmount: 0
-  ScaredSound: {fileID: 0}
-  IsPatrolling: 1
-  Speed: 400
-  KidRadar: 8
-  ChaseSounds:
-  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
-  - {fileID: 8300000, guid: 7ecc26b50d7ffc34c8246dc94b6b67b0, type: 3}
-  - {fileID: 8300000, guid: a1db8f3ce98ab9748a998df13a16ae44, type: 3}
-  - {fileID: 8300000, guid: cd51f6815417bed43a421661ffee36fe, type: 3}
-  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
-  - {fileID: 8300000, guid: 7396df2246dc1e04299d5ab7a87a0720, type: 3}
-  - {fileID: 8300000, guid: 6dc473cf00b0ca144a37f4d6f239152e, type: 3}
-  - {fileID: 8300000, guid: ecfba1644e22db7408576d41c442fe8e, type: 3}
-  - {fileID: 8300000, guid: 7ecc26b50d7ffc34c8246dc94b6b67b0, type: 3}
-  - {fileID: 8300000, guid: a1db8f3ce98ab9748a998df13a16ae44, type: 3}
-  GetAwaySounds:
-  - {fileID: 8300000, guid: 256d721937bfa6e4294dab7877f5b343, type: 3}
-  - {fileID: 8300000, guid: ecfba1644e22db7408576d41c442fe8e, type: 3}
-  - {fileID: 8300000, guid: 5071626d36ed391488e0340131eb35d8, type: 3}
-  - {fileID: 8300000, guid: 933e4d9a3ce94144c8babd4569de667b, type: 3}
-  Radius: 5
-  InitialSpeedIncrease: 30
-  SpeedIncreaseRate: 30
-  InitialRadarIncrease: 30
-  RadarIncreaseRate: 30
+  speed: 400
+  radar: 10
+  wanderRadius: 5
+  view: {fileID: 0}
+  body: {fileID: 0}
+  stoppingDistance: 0
+  bDebugFSM: 0
+  FSMInitState: 
 --- !u!212 &212855836284677272
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,9 +1,12 @@
-﻿﻿using System.Collections;
+﻿﻿using System;
+ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEngine;
+ using JetBrains.Annotations;
+ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,19 +14,20 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 //	public bool gameStarted = false;
-//
-//	public Level currentLevel;
-//
+
 	public Text Score;
 //	public Button StartButton;
 	public Button TryAgainButton;
 	public Text YouLose;
-//	public Text YouWin;
-//	public Text WinText;
+	public GameObject[] ParentSpawners;
+	public GameObject[] ParentPrefabs;
+	[Range(1,6)]
+	public int NumParentsToSpawn;
+
+	public float InitialParentRespawn;
+
+	public float ParentRespawnRate;
 //	public Text Instructions;
-//	public Text RoundLabel;
-//	public Text Rounds;
-//	public Level[] levels;
 //
 //	public GameObject gameOverSound;
 
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
 	private int _score;
 	private float _tick = 0.1f;
 	private float _nextScoreTick = 0.0f;
+	private GameObject[] _parents;
 	
 	void Awake()
 	{
@@ -52,13 +57,10 @@ public class GameManager : MonoBehaviour
 //		AudioListener.volume = 0.5f;
 		YouLose.gameObject.SetActive(false);
 		TryAgainButton.gameObject.SetActive(false);
-//		YouWin.gameObject.SetActive(false);
-//		WinText.gameObject.SetActive(false);
-//		
-//		currentLevel = levels[0];
-//		SetupNextLevel();
-//
 		_score = 0;
+
+		SpawnParents();
+		InvokeRepeating("SpawnParent", InitialParentRespawn, ParentRespawnRate);
 	}
 
 	void Update()
@@ -71,6 +73,40 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	void SpawnParent()
+	{
+		var prefab = ParentPrefabs[Random.Range(0, ParentPrefabs.Length)];
+		var spawnPoint = GetFreeSpawnPoint();
+
+		var parentObject = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
+		parentObject.transform.parent = spawnPoint.transform;			
+	
+	}
+	
+	void SpawnParents()
+	{
+		for (int i = 0; i < NumParentsToSpawn; i++)
+		{
+			SpawnParent();
+		}
+
+	}
+
+	GameObject GetFreeSpawnPoint()
+	{
+		List<GameObject> freeSpawners = new List<GameObject>();
+		
+		for (var i = 0; i < ParentSpawners.Length; i++)
+		{
+			if (ParentSpawners[i].GetComponentInChildren<AdultController>() == null)
+			{
+				freeSpawners.Add(ParentSpawners[i]);
+			}
+		}
+		
+		return freeSpawners[Random.Range(0, freeSpawners.Count)];
+	}
+	
 	public void RestartGame()
 	{
 		SceneManager.LoadScene("Main");

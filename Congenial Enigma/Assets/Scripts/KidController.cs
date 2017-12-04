@@ -7,15 +7,18 @@ public class KidController : MonoBehaviour
 	public bool IsPatrolling = true;
 	public float Speed = 5.5f;
 	public float KidRadar = 5;
-	public AudioClip[] ChaseSounds;
-	public AudioClip[] GetAwaySounds;
 	public float Radius = 5;
+	public float InitialSpeedIncrease;
+	public float SpeedIncreaseRate;
+	public float InitialRadarIncrease;
+	public float RadarIncreaseRate;
+	
+	private bool _clipPlayed;
 	private Transform _target;
 	private Rigidbody2D _rb;
 	private Vector3 _origin;
 	private Vector3 _wanderPoint;
 	private Vector2 _direction;
-	private bool _clipPlayed;
 	private bool _targeted;
 	private SpriteRenderer _sprite;
 	
@@ -23,11 +26,14 @@ public class KidController : MonoBehaviour
 	{
 		// radar gizmo
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, 5);
+		Gizmos.DrawWireSphere(transform.position, KidRadar);
 		
 		// wander gizmo
-		Gizmos.color = Color.black;
-		Gizmos.DrawWireSphere(_origin, Radius);
+		if (_origin != Vector3.zero)
+		{
+			Gizmos.color = Color.black;
+			Gizmos.DrawWireSphere(_origin, Radius);
+		}
 		
 	}
 	
@@ -49,8 +55,8 @@ public class KidController : MonoBehaviour
 					_rb.AddForce(impulse * Speed);
 					if (!_clipPlayed)
 					{
-						ClipPlayer.Instance.ClipToPlay = RandomChaseSound();
-						ClipPlayer.Instance.PlayClip();
+//						ClipPlayer.Instance.ClipToPlay = RandomChaseSound();
+//						ClipPlayer.Instance.PlayClip();
 						_clipPlayed = true;
 					}
 				}
@@ -58,10 +64,10 @@ public class KidController : MonoBehaviour
 				{
 					if (_targeted)
 					{
-						ClipPlayer.Instance.ClipToPlay = RandomGetAwaySound();
-						ClipPlayer.Instance.PlayClip();
+						SetWanderPoint();
+//						ClipPlayer.Instance.ClipToPlay = RandomGetAwaySound();
+//						ClipPlayer.Instance.PlayClip();
 						_targeted = false;
-						ResetOrigin();
 					}
 
 					GoAway();
@@ -87,9 +93,21 @@ public class KidController : MonoBehaviour
 		_rb = GetComponent<Rigidbody2D>();
 		_target = GameObject.FindGameObjectWithTag("Player").transform;
 		_sprite = GetComponent<SpriteRenderer>();
+		InvokeRepeating("IncreaseSpeed", InitialSpeedIncrease, SpeedIncreaseRate);
+		InvokeRepeating("IncreaseRadar", InitialRadarIncrease, RadarIncreaseRate);
 	}
 
-	void ResetOrigin()
+	void IncreaseSpeed()
+	{
+		Speed += 25;
+	}
+
+	void IncreaseRadar()
+	{
+		KidRadar += 1;
+	}
+	
+	void SetWanderPoint()
 	{
 		print("origin: " + _origin);
 		var newX = _origin.x + Radius * Random.Range(-1.0f, 1.0f);
@@ -101,22 +119,13 @@ public class KidController : MonoBehaviour
 
 	void GoAway()
 	{
-		_direction = _wanderPoint - transform.position;
+		var destination = _wanderPoint == Vector3.zero ? _origin : _wanderPoint;
+		_direction = destination - transform.position;
 		var impulse = (_direction).normalized * Time.deltaTime;
 		_rb.AddForce(impulse * Speed);
 	}
 
-	AudioClip RandomChaseSound()
-	{
-		var index = Random.Range(0, ChaseSounds.Length - 1);
-		return ChaseSounds[index];
-	}
 
-	AudioClip RandomGetAwaySound()
-	{
-		var index = Random.Range(0, GetAwaySounds.Length - 1);
-		return GetAwaySounds[index];
-	}
 	
 	void Update()
 	{
