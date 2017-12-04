@@ -33,17 +33,14 @@ public class ClipPlayer : MonoBehaviour
 		{
 			if (prioritize)
 			{
-//				_audioSource.Stop();
 				_audioSource.clip = ClipToPlay;
 				_audioSource.Play();
-//				_audioSource.clip = null;
 			}
 		}
 		else
 		{
 			_audioSource.clip = ClipToPlay;
 			_audioSource.Play();
-//			_audioSource.clip = null;
 		}
 	}
 }

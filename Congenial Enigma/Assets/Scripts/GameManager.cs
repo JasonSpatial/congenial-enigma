@@ -17,20 +17,17 @@ public class GameManager : MonoBehaviour
 
 	public Text Score;
 	public GameObject StartScreen;
-//	public Button StartButton;
 	public Button TryAgainButton;
+
+	public Button ExitButton;
 	public Text YouLose;
 	public GameObject[] ParentSpawners;
 	public GameObject[] ParentPrefabs;
+
 	[Range(1,6)]
 	public int NumParentsToSpawn;
-
 	public float InitialParentRespawn;
-
 	public float ParentRespawnRate;
-//	public Text Instructions;
-//
-//	public GameObject gameOverSound;
 
 	private Transform[] _kidOrigins;
 	private KidController[] _kids;
@@ -49,15 +46,13 @@ public class GameManager : MonoBehaviour
 		{
 			Instance = this;
 		}
-	
 	}
-
 	
 	void Start ()
 	{
-//		AudioListener.volume = 0.5f;
 		YouLose.gameObject.SetActive(false);
 		TryAgainButton.gameObject.SetActive(false);
+		ExitButton.gameObject.SetActive(false);
 		_score = 0;
 
 		SpawnParents();
@@ -119,10 +114,15 @@ public class GameManager : MonoBehaviour
 		
 		// should only come after we're out of lives
 		YouLose.gameObject.SetActive(true);
-
+		ExitButton.gameObject.SetActive(true);
 		TryAgainButton.gameObject.SetActive(true);
 	}
 
+	public void Exit()
+	{
+		Application.Quit();
+	}
+	
 	public void StartGame()
 	{
 		StartScreen.SetActive(false);

@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 			_sprite.flipX = (movement.x == 0) ? _sprite.flipX : (movement.x < 0);
+			_anim.SetBool("Moving", !(movement.x == 0) || !(movement.y == 0));
 		
 			_rb.MovePosition(_rb.position + movement * Speed * Time.fixedDeltaTime);
 		}
@@ -112,8 +113,6 @@ public class PlayerController : MonoBehaviour
 
 	void TakeDamage(int damage)
 	{
-
-//		StartCoroutine(ShowDamage());	
 		var heartIndex = Mathf.CeilToInt(Purrs / 2);
 		Purrs += damage;
 		var currentSprite = HealthMeter[heartIndex].GetComponent<RawImage>();

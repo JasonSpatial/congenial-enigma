@@ -50,7 +50,6 @@ public class AdultController : MonoBehaviour
 		if (Leaving)
 		{
 			Destroy(gameObject);
-			// move to ... somewhere?
 		}
 	}
 }
