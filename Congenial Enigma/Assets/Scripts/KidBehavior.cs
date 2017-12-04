@@ -19,6 +19,13 @@ public class KidBehavior : MonoBehaviour
     public Rigidbody2D body;
 
     public float stoppingDistance;
+    
+    public float InitialSpeedIncrease;
+    public float SpeedIncreaseRate;
+    public float InitialRadarIncrease;
+    public float RadarIncreaseRate;
+    public float Radius = 5;
+
 
     GameObject cat;
 
@@ -26,14 +33,11 @@ public class KidBehavior : MonoBehaviour
     {
         get
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, cat.transform.position - transform.position, radar);
-            for (int i = 0; i < hits.Length; i++)
-            {
-                if (hits[i].collider.gameObject.CompareTag("Player"))
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, cat.transform.position - transform.position, radar, 1 << LayerMask.NameToLayer("Obstacles"));
+                if (hit.collider != null && hit.collider.gameObject.CompareTag("Player"))
                 {
                     return true;
                 }
-            }
 
             return false;
         }
@@ -115,12 +119,13 @@ public class KidBehavior : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radar);
+        
     }
 
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radar);
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere((!bInited)?transform.position:startPos, wanderRadius);
     }
@@ -140,11 +145,18 @@ public class KidBehavior : MonoBehaviour
         State = "Idle";
         body = GetComponent<Rigidbody2D>();
         view = GetComponent<SpriteRenderer>();
+        
+        InvokeRepeating("IncreaseSpeed", InitialSpeedIncrease, SpeedIncreaseRate);
+        InvokeRepeating("IncreaseRadar", InitialRadarIncrease, RadarIncreaseRate);
+
     }
 
     private void Update()
     {
-        FSM.Update();
+        if (GameManager.Instance.GameStarted)
+        {
+            FSM.Update();
+        }
     }
 
     #endregion
@@ -166,6 +178,16 @@ public class KidBehavior : MonoBehaviour
 
     #region METHODS
 
+    void IncreaseSpeed()
+    {
+        speed += 25;
+    }
+
+    void IncreaseRadar()
+    {
+        radar += 1;
+    }
+	
     void MoveTo(Vector3 target)
     {
         Move(Vector3.Normalize(target - transform.position) * speed * Time.deltaTime);
@@ -328,7 +350,7 @@ public class KidBehavior : MonoBehaviour
     public void Pet_Enter()
     {
         //let the Cat know 
-        cat.SendMessage("OnBeingLoved");    //the cat should have a void OnBeingLoved() implemented
+//        cat.SendMessage("OnBeingLoved");    //the cat should have a void OnBeingLoved() implemented
 
         //throw some hearts around, the kid is excited (animation?)
 

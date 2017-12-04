@@ -13,9 +13,10 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance;
 
-//	public bool gameStarted = false;
+	public bool GameStarted = true;
 
 	public Text Score;
+	public GameObject StartScreen;
 //	public Button StartButton;
 	public Button TryAgainButton;
 	public Text YouLose;
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
-		if (Time.time > _nextScoreTick)
+		if (Time.time > _nextScoreTick && GameStarted)
 		{
 			_nextScoreTick += _tick;
 			_score += 1;
@@ -79,8 +80,8 @@ public class GameManager : MonoBehaviour
 		var spawnPoint = GetFreeSpawnPoint();
 
 		var parentObject = Instantiate(prefab, spawnPoint.transform.position, Quaternion.identity);
+		parentObject.layer = LayerMask.NameToLayer("Obstacles");
 		parentObject.transform.parent = spawnPoint.transform;			
-	
 	}
 	
 	void SpawnParents()
@@ -114,9 +115,7 @@ public class GameManager : MonoBehaviour
 	
 	public void Lose()
 	{
-		//		GameObject loseSound = Instantiate(gameOverSound, transform.position, Quaternion.identity);
-//		Destroy(loseSound, 1f);
-//		gameStarted = false;\
+		GameStarted = false;
 		
 		// should only come after we're out of lives
 		YouLose.gameObject.SetActive(true);
@@ -124,51 +123,14 @@ public class GameManager : MonoBehaviour
 		TryAgainButton.gameObject.SetActive(true);
 	}
 
-//
-//	void Win()
-//	{
-//		YouWin.gameObject.SetActive(true);
-//		WinText.gameObject.SetActive(true);
-//		TryAgainButton.gameObject.SetActive(true);
-//	}
-//	
-//	public void StartGame()
-//	{
-//		gameStarted = true;
-//		StartButton.gameObject.SetActive(false);
-//		Instructions.gameObject.SetActive(false);
-//		RoundLabel.gameObject.SetActive(false);
-//
-//	}
-//
-//	public void NextLevel()
-//	{
-//		int nextLevelNum = currentLevel.nextLevelNum;		
-//		if (nextLevelNum != 0)
-//		{
-//			currentLevel = levels[nextLevelNum - 1];
-//			SetupNextLevel();
-//			StartCoroutine("ShowRound");
-//			
-//		}
-//		else
-//		{
-//			Win();
-//		}
-//	}
-//
-//	IEnumerator ShowRound()
-//	{
-//		Rounds.gameObject.SetActive(true);
-//		RoundLabel.gameObject.SetActive(true);
-//		yield return new WaitForSeconds(2f);
-//		HideRound();
-//	}
-//
-//	void HideRound()
-//	{
-//		Rounds.gameObject.SetActive(false);
-//		RoundLabel.gameObject.SetActive(false);
-//	
-//	}
+	public void StartGame()
+	{
+		StartScreen.SetActive(false);
+		Invoke("SetGameStart", 2);
+	}
+
+	void SetGameStart()
+	{
+		GameStarted = true;
+	}
 }
